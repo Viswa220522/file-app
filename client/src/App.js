@@ -9,7 +9,7 @@ const App = () => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const dataPerPage = 10;
+  const dataPerPage = 20;
   const lastIndex = currentPage * dataPerPage;
   const firstIndex = lastIndex - dataPerPage;
   const data = sortedData.slice(firstIndex, lastIndex);
