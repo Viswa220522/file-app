@@ -1,29 +1,31 @@
 const express = require("express");
-const Mysql = require("mysql")
+const { Client } = require("pg");
 
 const cors = require('cors');
 const app = express()
 
 app.use(cors());
 
-const db = Mysql.createConnection( {
+const client = new Client({
     host: "localhost",
-    user: 'root',
+    user: 'postgres',
     password: 'password',
-    database: 'vishwa'
-})
+    database: 'postgres',
+    port: 5432
+});
+
+client.connect();
 
 app.get("/api", (req, res) => {
-    const sql = "SELECT * FROM MOCK_DATA"
-    db.query(sql, (err, result) => {
+    client.query("SELECT * FROM customer", (err, result) => {
         if (!err) {
-            return res.json(result)
+            res.json(result.rows);
         } else {
-            return res.json(err)
+            res.status(500).json({ error: err.message });
         }
-    })
-}) 
+    });
+});
 
-app.listen(8080, ()=>{
+app.listen(8080, () => {
     console.log('Server is running on port 8080')
 });
